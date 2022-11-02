@@ -11,6 +11,7 @@ if [ $check -eq 0 ]; then
 	exists=$?
 	if [ $exists -eq 1 ]; then
 		echo $friend >> $id/friends.txt
+		echo $id >> $friend/friends.txt
 		echo "ok: friend added"
 	else
 		echo "friend already added"
