@@ -1,6 +1,6 @@
 #! /bin/bash
 
-echo "Welcome to BashBook\nEnter your id:"
+echo -e "Welcome to BashBook\nEnter your id:"
 read id
 ./checkIDs.sh $id
 if [ $? -ne 0 ]; then
