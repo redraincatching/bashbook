@@ -13,7 +13,7 @@ if [ $check -eq 0 ]; then
 		echo $friend >> $id/friends.txt
 		echo "ok: friend added"
 	else
-		echo "Friend already added"
+		echo "friend already added"
 		exit 1
 	fi
 elif [ $check -eq 2 ]; then
