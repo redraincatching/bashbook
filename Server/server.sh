@@ -26,7 +26,7 @@ while true; do
 		display)
 			echo "Enter your friends ID"
 			read friend
-			./display_wall.sh $id $friend
+			./display_wall.sh $friend
 			;;
 		exit)
 			exit 0
