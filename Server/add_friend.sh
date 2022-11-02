@@ -6,10 +6,11 @@ friend=$2
 ./checkIDs.sh $id $friend #check the files
 check=$?	#check what the exit code was
 
+./checkFriends.sh $id $friend	#check if friends
+friends=$?	
+
 if [ $check -eq 0 ]; then
-	grep $friend $id/friends.txt > /dev/null
-	exists=$?
-	if [ $exists -eq 1 ]; then
+	if [ $friends -eq 1 ]; then
 		echo $friend >> $id/friends.txt
 		echo $id >> $friend/friends.txt
 		echo "ok: friend added"
