@@ -14,13 +14,15 @@ while true; do
 		add)
 			if ! [ "$friendID" = '' ]; then 
 				./add_friend.sh "$id" "$friendID"
+				#check not null
 			else
 				echo "Specify the friend ID"
 			fi
 			;;
 		post)
-			if ! [ "$friendID" = '' ] || [ "$other" = '' ]; then
+			if ! { [ "$friendID" = '' ] || [ "$other" = '' ]; }; then
 				./post_messages.sh "$id" "$friendID" "$other"
+				#check if neither friend nor message are empty 
 			else
 				echo "Enter the friend ID followed by the message in quotes"
 			fi
