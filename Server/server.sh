@@ -2,7 +2,7 @@
 
 echo -e "Welcome to BashBook\n"
 #get the user id - only the first word entered will be used
-read -p "Enter your id (no spaces): " -a id 
+read -p "Enter your id (no spaces): " -a id #passed to an array using space delimiters
 ./checkIDs.sh ${id[0]} #check if the id exists
 if [ $? -ne 0 ]; then
 	./createUser.sh ${id[0]} #if not the new user will be created
