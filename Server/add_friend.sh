@@ -12,7 +12,8 @@ friends=$?
 if [ $check -eq 0 ]; then
 	if [ $friends -eq 1 ]; then
 		echo $friend >> $id/friends.txt	#add friend to friends.txt
-		echo $id >> $friend/friends.txt	#add self to friends.txt, allows posting to own wall
+		echo $id >> $friend/friends.txt	#add self to friend's friends.txt
+		#friendship is symmetric
 		echo "ok: friend added"
 	else
 		echo "nok: friend already added"
