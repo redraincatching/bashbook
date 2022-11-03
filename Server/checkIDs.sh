@@ -1,6 +1,6 @@
 #! /bin/bash
 
-if [ $# -eq 0 ]; then
+if [ $# -lt 1 ]; then
 	echo "nok: too few arguments called on ID check"
 	exit 1 #exits with code 1 if there are not enough arguments
 else
