@@ -11,11 +11,11 @@ friends=$?
 
 if [ $check -eq 0 ]; then
 	if [ $friends -eq 1 ]; then
-		echo $friend >> $id/friends.txt
-		echo $id >> $friend/friends.txt
+		echo $friend >> $id/friends.txt	#add friend to friends.txt
+		echo $id >> $friend/friends.txt	#add self to friends.txt, allows posting to own wall
 		echo "ok: friend added"
 	else
-		echo "friend already added"
+		echo "nok: friend already added"
 		exit 1
 	fi
 elif [ $check -eq 2 ]; then
