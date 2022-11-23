@@ -1,6 +1,6 @@
 #!/bin/bash
 id=$1
-trap "rm Server/$id" EXIT #trap ctrl+c
+trap "rm "$id"_pipe" EXIT #trap ctrl+c
 
 if [ $# -ne 1 ]; then
 	echo "error: this script requires one id as a parameter"
@@ -8,25 +8,25 @@ if [ $# -ne 1 ]; then
 fi 
 
 	
-./checkIDs.sh $id #check if the id exists
+./checkIDs.sh $id > /dev/null #check if the id exists
 if [ $? -ne 0 ]; then
-	./Server/createUser.sh $id #if not the new user will be created
+	./createUser.sh $id #if not the new user will be created
 fi
 
 
-if ! [ -e Server/server ]; then	#if server isn't running
-	./Server/server.sh &
+if ! [ -e server ]; then	#if server isn't running
+	./server.sh &
 	echo "started server"
 fi
 
-mkfifo Server/$id
+mkfifo "$id"_pipe
 
 echo "welcome to bashbook $id"
 
 while true; do
 	read -p "enter a command followed by the arguments: " req
-	echo $id $req > ./Server/server
-	read ret < Server/$id
+	echo $id $req > ./server
+	read ret < "$id"_pipe
 	 
 	(echo $ret | grep "^nok:") > /dev/null #check if 
 	error=$?
