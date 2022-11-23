@@ -9,8 +9,15 @@ while true; do
 		add)
 			if ! [ "$friendID" = '' ]; then 
 				./add_friend.sh "$id" "$friendID"
-				#check not null
-				echo "ok: friend $friendID added" > "$id"_pipe 
+				check=$?
+
+				if [ $check -eq 1 ]; then
+			 		echo "nok: friend already added" > "$id"_pipe
+				elif [ $check -eq 3 ]; then
+					echo "nok: user $friend doesn't exist" > "$id"_pipe
+				else		
+					echo "ok: friend $friendID added" > "$id"_pipe
+				fi	
 			else
 				echo "nok: specify the friend ID" > "$id"_pipe
 			fi
@@ -23,8 +30,14 @@ while true; do
 
 				if ! { [ "$friendID" = '' ] || [ "$other" = '' ]; }; then
 					./post_messages.sh "$id" "$friendID" "$other"
-					#check if neither friend nor message are empty 
-					echo "ok: message posted" > "$id"_pipe
+					check=$?
+
+					
+				        if [ $check -eq 2 ]; then
+				 	       echo "nok: receiver $friendID does not exist"
+			       		else
+			 			echo "ok: message posted" > "$id"_pipe
+					fi
 				else
 					echo "nok: enter the friend ID followed by the message in quotes" > "$id"_pipe
 				fi
@@ -34,9 +47,15 @@ while true; do
 		display)
 			if ! [ "$friendID" = '' ]; then
 				./display_wall.sh "$friendID"
+				check=$?
+				
+				if [ $check -eq 2 ]; then
+					echo "nok: user $friendID does not exist" > "$id"_pipe
+				fi
 			else
-				echo "nok: enter the friend ID" > "$id"_pipe
-			fi
+                        	echo "nok: enter the friend ID" > "$id"_pipe
+                        fi
+
 			;;
 		exit)
 			echo "exited" > "$id"_pipe

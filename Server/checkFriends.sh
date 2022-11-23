@@ -2,7 +2,7 @@
 user1=$1
 user2=$2
 
-./checkIDs.sh $user1 $user2
+./checkIDs.sh $user1 $user2 > /dev/null
 check=$?
 
 if [ $check -ne 0 ];then
@@ -14,9 +14,7 @@ exists=$?
 #search user2's friends for user1 
 #note: friendship is symmetrical
 if [ $exists -eq 1 ]; then
-	echo "nok: not friends" >> ./log.txt
-	exit 1
+	exit 1	#not friends
 else
-	echo "ok: friends" ./log.txt
-	exit 0
+	exit 0	#friends
 fi

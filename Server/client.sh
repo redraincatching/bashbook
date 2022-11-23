@@ -28,18 +28,18 @@ while true; do
 	echo $id $req > ./server
 	read ret < "$id"_pipe
 	 
-	(echo $ret | grep "^nok:") > /dev/null #check if 
+	(echo $ret | grep "nok:") > /dev/null #check if 
 	error=$?
 	if [ "$ret" = "exited" ];then
 		echo "exiting..."
 		exit 0
 	fi
 
-	if [ $error -eq 1 ];then
-		output=$(echo $ret | sed "s/'nok: '/'error: '/")
+	if [ $error -eq 0 ];then
+		output=$(echo $ret | sed "s/nok:[[:space:]]/error:[[:space:]]/")
 		echo $output
 	else 
-		output=$(echo $ret | sed "s/'ok: '//")
+		output=$(echo $ret | sed "s/ok:[[:space:]]//")
 		echo $output
 	fi	
 done	
