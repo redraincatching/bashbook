@@ -9,7 +9,7 @@ if [ $# -ne 1 ]; then
         echo "nok: incorrect number of arguments"
         exit 1
 elif [ $check -eq 0 ] ; then	#if the user already exists
-        echo "nok: user already exists"
+        echo "nok: user already exists" 
         exit 2
 elif [ $check -eq 2 ]; then	#set up the user with
         mkdir $user			#a directory

@@ -14,14 +14,14 @@ if [ $check -eq 0 ]; then
 		echo $friend >> $id/friends.txt	#add friend to friends.txt
 		echo $id >> $friend/friends.txt	#add self to friend's friends.txt
 		#friendship is symmetric
-		echo "ok: friend added"
+		echo "ok: friend added" >> ./log.txt
 	else
-		echo "nok: friend already added"
+		echo "nok: friend already added" >> ./log.txt
 		exit 1
 	fi
 elif [ $check -eq 2 ]; then
-	echo "nok: user $id does not exist"
+	echo "nok: user $id does not exist" >> ./log.txt
 elif [ $check -eq 3 ]; then
-	echo "nok: $friend does not exist"
+	echo "nok: $friend does not exist" >> ./log.txt
 fi
 exit 0

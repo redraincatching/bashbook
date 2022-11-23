@@ -14,9 +14,9 @@ exists=$?
 #search user2's friends for user1 
 #note: friendship is symmetrical
 if [ $exists -eq 1 ]; then
-	echo "nok: not friends"
+	echo "nok: not friends" >> ./log.txt
 	exit 1
 else
-	echo "ok: friends"
+	echo "ok: friends" ./log.txt
 	exit 0
 fi
