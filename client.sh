@@ -1,6 +1,8 @@
 #!/bin/bash
 id=$1
 
+trap "rm Server/$id" SIGINT #trap ctrl+c
+
 if [ $# -ne 1 ]; then
 	echo "error: this script requires one id as a parameter"
 	exit 1
