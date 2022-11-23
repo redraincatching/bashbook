@@ -5,7 +5,7 @@ friends who can post messages on each others' walls
 
 Run the server file in the console and then follow the instructions provided
 
-If the ID initiailly entered does not exist, it will be created
+If the ID initially entered does not exist, it will be created
 
 The user is then "logged in" and can simply call commands without having to specify their own id
 
