@@ -28,7 +28,7 @@ while true; do
 	echo $id $req > ./server
 	read ret < "$id"_pipe
 	 
-	(echo $ret | grep "nok:") > /dev/null #check if 
+	(echo $ret | grep "^nok:") > /dev/null #check if 
 	error=$?
 	if [ "$ret" = "exited" ];then
 		echo "exiting..."
@@ -36,10 +36,10 @@ while true; do
 	fi
 
 	if [ $error -eq 0 ];then
-		output=$(echo $ret | sed "s/nok:[[:space:]]/error:[[:space:]]/")
+		output=$(echo $ret | sed "s/nok: /error: /")
 		echo $output
 	else 
-		output=$(echo $ret | sed "s/ok:[[:space:]]//")
+		output=$(echo $ret | sed "s/ok: //")
 		echo $output
 	fi	
 done	
