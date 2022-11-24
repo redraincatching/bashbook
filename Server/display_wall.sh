@@ -1,8 +1,9 @@
 #! /bin/bash
 
-id=$1
+retId=$1
+id=$2
 
-if [ $# -ne 1 ]; then
+if [ $# -ne 2 ]; then
 	exit 1	#incorrect no. of args
 fi
 
@@ -10,10 +11,10 @@ fi
 check=$? #get the exit code from the user check
 
 if [ $check -eq 0 ]; then
-	#TODO: change it to string concat and pass to pipe
-	echo "start of file"
-	cat $id/wall.txt
-	echo "end of file"
+	echo "start_of_file" > "$retId"_pipe
+	output="$(cat "$id"/wall.txt)"
+	echo "$output" > "$retId"_pipe
+	echo "end_of_file" > "$retId"_pipe
 	exit 0
 elif [ $check -eq 2 ]; then
 	exit 2	#user doesn't exist
