@@ -11,20 +11,17 @@ fi
 check=$? #get the exit code from the user check
 
 if [ $check -eq 0 ]; then
-	#input=("start of file")
-	echo "here now"
+	mapfile -t input < "$id"/wall.txt
+	
+	output=("start of file_")
 
-	#readarray input < "$id"_wall.txt
+	for i in "${input[@]}"; do
+		output+="$i"_
+	done
 
-	echo "and further"
-
-	#concat with delimiters
-	#for i in "${input[@]}"
-	#do
-	#	output+="$i"
-	#done
-	output="hi"
+	output+="end of file"
 	echo $output > "$retId"_pipe
+
 	exit 0
 elif [ $check -eq 2 ]; then
 	exit 2	#user doesn't exist

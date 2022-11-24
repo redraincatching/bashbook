@@ -39,7 +39,7 @@ while true; do
 			;;
 		display)
 			if ! [ "$friendID" = '' ]; then
-				./display_wall.sh "$friendID"
+				./display_wall.sh "$id" "$friendID"
 				check=$?
 				
 				if [ $check -eq 2 ]; then
@@ -52,7 +52,7 @@ while true; do
 			;;
 		exit)
 			echo "exited" > "$id"_pipe
-			exit 0
+			exit 0		#TODO: change later
 			;;
 		*)
 			echo "only valid commands are add [friend ID], post [friend ID] [message], display [friend ID] or exit" > "$id"_pipe

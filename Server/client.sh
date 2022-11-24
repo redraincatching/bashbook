@@ -40,12 +40,14 @@ while true; do
 		echo "exiting..."
 		exit 0
 	elif [ $wall -eq 0 ]; then
-		echo "got here at least"
+		IFS='_' read -ra out <<< "$ret"
 		
-		echo $ret
-		#if [ "$i" -ne 0 || "$i" -ne "${#array[@]}" ];then
-		#	echo "$i"
-		#fi
+		# print all except first and last lines
+		length=${#out[@]}
+		for (( i=1; i<length-1; i++ )); do			
+			printf '%s\n' "${out[$i]}"
+			
+		done
 	else
 		output=$(echo $ret | sed "s/ok: //")
 		echo $output
