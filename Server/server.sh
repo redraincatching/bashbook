@@ -23,11 +23,6 @@ while true; do
 			fi
 			;;
 		post)
-			while ! ln -s "$id" "$id"_ln 2>/dev/null
-				do
-					sleep 1
-				done
-
 				if ! { [ "$friendID" = '' ] || [ "$other" = '' ]; }; then
 					./post_messages.sh "$id" "$friendID" "$other"
 					check=$?
@@ -41,8 +36,6 @@ while true; do
 				else
 					echo "nok: enter the friend ID followed by the message in quotes" > "$id"_pipe
 				fi
-
-			rm "$id"_ln
 			;;
 		display)
 			if ! [ "$friendID" = '' ]; then

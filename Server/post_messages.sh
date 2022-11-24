@@ -18,7 +18,9 @@ elif [ $check -eq 0 ]; then
 	if [ $friends -ne 0 ];then
 		exit 3 #users are not friends
 	else 
+		./acquire.sh $receiver/wall.txt "$receiver"walllock.txt
 		echo "$sender: $message" >> ./$receiver/wall.txt
+		./release.sh "$receiver"walllock.txt
 		exit 0
 	fi
 fi
