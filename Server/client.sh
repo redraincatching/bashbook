@@ -28,21 +28,26 @@ while true; do
 	echo $id $req > ./server
 	read ret < "$id"_pipe	
 
-	(echo "$ret" | grep "nok:") > /dev/null #check if 
+	(echo "$ret" | grep "^nok:") > /dev/null #check if 
 	error=$?
+	(echo "$ret" | grep "^start of file") > /dev/null
+	wall=$?
 
 	if [ $error -eq 0 ];then
-		output=$(echo $ret | sed "s/nok:[[:space:]]/error:[[:space:]]/")
+		output=$(echo $ret | sed "s/nok: /error: /")
 		echo $output	
 	elif [ "$ret" == "exited" ]; then
-		echo "Exiting..."
+		echo "exiting..."
 		exit 0
-	elif [ "$ret" == "start_of_file" ]; then
-		read ret < "$id"_pipe
-		echo -e "$ret"
+	elif [ $wall -eq 0 ]; then
+		echo "got here at least"
+		
+		echo $ret
+		#if [ "$i" -ne 0 || "$i" -ne "${#array[@]}" ];then
+		#	echo "$i"
+		#fi
 	else
-		echo 4
-		output=$(echo $ret | sed "s/ok:[[:space:]]//")
+		output=$(echo $ret | sed "s/ok: //")
 		echo $output
 	fi
 

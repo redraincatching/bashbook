@@ -11,10 +11,20 @@ fi
 check=$? #get the exit code from the user check
 
 if [ $check -eq 0 ]; then
-	echo "start_of_file" > "$retId"_pipe
-	output="$(cat "$id"/wall.txt)"
-	echo "$output" > "$retId"_pipe
-	echo "end_of_file" > "$retId"_pipe
+	#input=("start of file")
+	echo "here now"
+
+	#readarray input < "$id"_wall.txt
+
+	echo "and further"
+
+	#concat with delimiters
+	#for i in "${input[@]}"
+	#do
+	#	output+="$i"
+	#done
+	output="hi"
+	echo $output > "$retId"_pipe
 	exit 0
 elif [ $check -eq 2 ]; then
 	exit 2	#user doesn't exist
