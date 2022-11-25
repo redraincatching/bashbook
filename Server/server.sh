@@ -1,44 +1,71 @@
 #! /bin/bash
+trap "rm server" EXIT
 
-echo -e "Welcome to BashBook\n"
-#get the user id - only the first word entered will be used
-read -p "Enter your id (no spaces): " -a id #passed to an array using space delimiters
-./checkIDs.sh ${id[0]} #check if the id exists
-if [ $? -ne 0 ]; then
-	./createUser.sh ${id[0]} #if not the new user will be created
-fi
+mkfifo server	#make the pipe
+sleep 1		#wait for the user to enter a command
+
+count=0		#number of users on the server
 
 while true; do
-	read -p "Enter a command: " request friendID other #get a command
+	read id request friendID other < server #get a command
 	case $request in #check what the command is and ensure validity for that command, then run the appropriate script
 		add)
 			if ! [ "$friendID" = '' ]; then 
 				./add_friend.sh "$id" "$friendID"
-				#check not null
+				check=$?
+
+				if [ $check -eq 1 ]; then
+			 		echo "nok: friend already added" > "$id"_pipe
+				elif [ $check -eq 3 ]; then
+					echo "nok: user $friendID doesn't exist" > "$id"_pipe
+				else		
+					echo "ok: friend $friendID added" > "$id"_pipe
+				fi	
 			else
-				echo "Specify the friend ID"
+				echo "nok: specify the friend ID" > "$id"_pipe
 			fi
 			;;
 		post)
-			if ! { [ "$friendID" = '' ] || [ "$other" = '' ]; }; then
-				./post_messages.sh "$id" "$friendID" "$other"
-				#check if neither friend nor message are empty 
-			else
-				echo "Enter the friend ID followed by the message in quotes"
-			fi
+				if ! { [ "$friendID" = '' ] || [ "$other" = '' ]; }; then
+					./post_messages.sh "$id" "$friendID" "$other"
+					check=$?
+
+					
+				        if [ $check -eq 2 ]; then
+				 	       echo "nok: receiver $friendID does not exist"
+			       		else
+			 			echo "ok: message posted" > "$id"_pipe
+					fi
+				else
+					echo "nok: enter the friend ID followed by the message in quotes" > "$id"_pipe
+				fi
 			;;
 		display)
 			if ! [ "$friendID" = '' ]; then
-				./display_wall.sh "$friendID"
+				./display_wall.sh "$id" "$friendID"
+				check=$?
+				
+				if [ $check -eq 2 ]; then
+					echo "nok: user $friendID does not exist" > "$id"_pipe
+				fi
 			else
-				echo "Enter the friend ID"
-			fi
+                        	echo "nok: enter the friend ID" > "$id"_pipe
+                        fi
+
+			;;
+		login)
+			((count++))	#record the new user
+			echo "Welcome to BashBook $id" > "$id"_pipe	#send a response
 			;;
 		exit)
-			exit 0
+			((count--))	#record that a user has left
+			echo "exited" > "$id"_pipe	#tell the user to exit
+			if [ $count -le 0 ]; then	#if there are no users left
+				exit 0			#exit
+			fi
 			;;
 		*)
-			echo "Only valid commands are add [friend ID], post [friend ID] [message], display [friend ID] or exit"
+			echo "only valid commands are add [friend ID], post [friend ID] [message], display [friend ID] or exit" > "$id"_pipe
 			;;
 	esac
 done

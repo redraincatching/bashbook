@@ -1,7 +1,8 @@
 #! /bin/bash
 
-if [ $# -lt 1 ]; then
-	echo "nok: too few arguments called on ID check"
+# being able to check an arbitrary number of ids is a feature, not a bug
+
+if [ $# -lt 1 ]; then	
 	exit 1 #exits with code 1 if there are not enough arguments
 else
 	index=2
@@ -13,5 +14,4 @@ else
 		fi
 	done
 fi
-echo "ok: All IDs exist"
 exit 0 #exits with code 0 if all the passed ids were found
