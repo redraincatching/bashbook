@@ -14,7 +14,7 @@ while true; do
 				if [ $check -eq 1 ]; then
 			 		echo "nok: friend already added" > "$id"_pipe
 				elif [ $check -eq 3 ]; then
-					echo "nok: user $friend doesn't exist" > "$id"_pipe
+					echo "nok: user $friendID doesn't exist" > "$id"_pipe
 				else		
 					echo "ok: friend $friendID added" > "$id"_pipe
 				fi	
