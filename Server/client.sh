@@ -46,8 +46,7 @@ while true; do
 		# print all except first and last lines
 		length=${#out[@]}
 		for (( i=1; i<length-1; i++ )); do			
-			printf '%s\n' "${out[$i]}"
-			
+			printf '%s\n' "${out[$i]}"	
 		done
 	else
 		output=$(echo "${ret//ok: /}")

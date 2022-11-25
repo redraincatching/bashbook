@@ -11,16 +11,14 @@ fi
 check=$? #get the exit code from the user check
 
 if [ $check -eq 0 ]; then
-	mapfile -t input < "$id"/wall.txt
-	
-	output="start of file_"
+	IFS='_'
 
-	for i in "${input[@]}"; do
-		output+="$i"_
-	done
+	input="start of file"
+	#append the contents of  the wall to the input array line by line
+	mapfile -tO "${#input[@]}" input < "$id"/wall.txt
+	input+=("end of file")
 
-	output+="end of file"
-	echo $output > "$retId"_pipe
+	echo "${input[*]}" > "$retId"_pipe	#concat by IFS and echo output
 
 	exit 0
 elif [ $check -eq 2 ]; then
