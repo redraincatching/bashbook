@@ -2,7 +2,7 @@
 user1=$1
 user2=$2
 
-./checkIDs.sh $user1 $user2 > /dev/null
+./checkIDs.sh "$user1" "$user2" > /dev/null
 check=$?
 
 if [ $check -ne 0 ];then
