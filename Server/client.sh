@@ -17,12 +17,15 @@ fi
 
 if ! [ -e server ]; then	#if server isn't running
 	./server.sh &
+	sleep 1			#wait for the server to make its own pipe
 	echo "started server"
 fi
 
-mkfifo "$id"_pipe
+mkfifo "$id"_pipe #make the users pipe
 
-echo "welcome to bashbook $id"
+echo $id login > ./server	#login to the server
+read ret < "$id"_pipe		#get the login response
+echo $ret
 
 while true; do
 	read -rp "enter a command followed by the arguments: " req

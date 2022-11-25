@@ -1,7 +1,10 @@
 #! /bin/bash
 trap "rm server" EXIT
 
-mkfifo server
+mkfifo server	#make the pipe
+sleep 1		#wait for the user to enter a command
+
+count=0		#number of users on the server
 
 while true; do
 	read id request friendID other < server #get a command
@@ -50,9 +53,16 @@ while true; do
                         fi
 
 			;;
+		login)
+			((count++))	#record the new user
+			echo "Welcome to BashBook $id" > "$id"_pipe	#send a response
+			;;
 		exit)
-			echo "exited" > "$id"_pipe
-			exit 0		#TODO: change later
+			((count--))	#record that a user has left
+			echo "exited" > "$id"_pipe	#tell the user to exit
+			if [ $count -le 0 ]; then	#if there are no users left
+				exit 0			#exit
+			fi
 			;;
 		*)
 			echo "only valid commands are add [friend ID], post [friend ID] [message], display [friend ID] or exit" > "$id"_pipe
