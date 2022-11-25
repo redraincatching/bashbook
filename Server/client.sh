@@ -1,6 +1,6 @@
 #!/bin/bash
 id=$1
-trap "rm "$id"_pipe" EXIT #trap ctrl+c
+trap 'rm "$id"_pipe' EXIT #trap ctrl+c
 
 if [ $# -ne 1 ]; then
 	echo "error: this script requires one id as a parameter"
@@ -8,9 +8,10 @@ if [ $# -ne 1 ]; then
 fi 
 
 	
-./checkIDs.sh $id > /dev/null #check if the id exists
-if [ $? -ne 0 ]; then
-	./createUser.sh $id #if not the new user will be created
+#check if the id exists
+if ! ./checkIDs.sh "$id" ; then
+	./createUser.sh "$id" 
+	#if not the new user will be created
 fi
 
 
@@ -24,9 +25,9 @@ mkfifo "$id"_pipe
 echo "welcome to bashbook $id"
 
 while true; do
-	read -p "enter a command followed by the arguments: " req
-	echo $id $req > ./server
-	read ret < "$id"_pipe	
+	read -rp "enter a command followed by the arguments: " req
+	echo "$id" "$req" > ./server
+	read -r ret < "$id"_pipe	
 
 	(echo "$ret" | grep "^nok:") > /dev/null #check if 
 	error=$?
@@ -34,8 +35,8 @@ while true; do
 	wall=$?
 
 	if [ $error -eq 0 ];then
-		output=$(echo $ret | sed "s/nok: /error: /")
-		echo $output	
+		output=$(echo "${ret//nok: /error: }")
+		echo "$output"	
 	elif [ "$ret" == "exited" ]; then
 		echo "exiting..."
 		exit 0
@@ -49,8 +50,8 @@ while true; do
 			
 		done
 	else
-		output=$(echo $ret | sed "s/ok: //")
-		echo $output
+		output=$(echo "${ret//ok: /})
+		echo "$output"
 	fi
 
 done
