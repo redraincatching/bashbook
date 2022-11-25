@@ -7,10 +7,12 @@ friend=$2
 check=$?	#check what the exit code was	
 
 if [ $check -eq 0 ]; then
+	./acquire.sh server.sh friendslocklock.txt #only one person can acquire lock to friend files at a time
 	./acquire.sh "$id"/friends.txt "$id"friendslock.txt
 	if ! [ $id == $friend ]; then
 		./acquire.sh "$friend"/friends.txt "$friend"friendslock.txt
 	fi
+	./release.sh friendslocklock.txt
 	./checkFriends.sh "$id" "$friend"
 	friends=$?
 	if [ $friends -eq 1 ]; then
