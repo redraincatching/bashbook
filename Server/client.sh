@@ -50,7 +50,7 @@ while true; do
 			
 		done
 	else
-		output=$(echo "${ret//ok: /})
+		output=$(echo "${ret//ok: /}")
 		echo "$output"
 	fi
 
